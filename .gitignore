@@ -1,0 +1,29 @@
+# asdf
+.tool-versions
+
+# git
+*.orig
+
+# macOS
+.DS_Store
+
+# node
+node_modules
+
+# python
+.coverage
+*.egg-info
+.ipynb_checkpoints
+*.pyc
+__pycache__
+
+# serverless
+.serverless
+.env.yml
+
+# temporary files
+/tmp/*
+!/tmp/.keep
+
+# Visual Studio Code
+.vscode

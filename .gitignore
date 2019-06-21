@@ -16,6 +16,7 @@ node_modules
 .ipynb_checkpoints
 *.pyc
 __pycache__
+.pytest_cache
 
 # serverless
 .serverless

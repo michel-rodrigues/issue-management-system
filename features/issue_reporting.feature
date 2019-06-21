@@ -6,3 +6,4 @@ Feature: Issue reporting
       Then it should have created a new issue
       Then it should have recorded the issuer
       Then it should have recorded the description
+      Then it should have committed the unit of work

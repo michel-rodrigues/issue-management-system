@@ -1,12 +1,14 @@
-from domain.models import Issue, IssueReporter
+from issues.domain.models import Issue, IssueReporter
 
 
 class ReportIssueHandler:
 
-    def __init__(self, issue_log):
-        self.issue_log = issue_log
+    def __init__(self, unit_of_work):
+        self.unit_of_work = unit_of_work
 
     def __call__(self, cmd):
         reported_by = IssueReporter(cmd.reporter_name, cmd.reporter_email)
         issue = Issue(reported_by, cmd.problem_description)
-        self.issue_log.add(issue)
+        with self.unit_of_work.start() as tx:
+            tx.issues.add(issue)
+            tx.commit()

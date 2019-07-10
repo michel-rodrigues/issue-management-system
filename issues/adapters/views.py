@@ -15,11 +15,11 @@ def read_uuid(record, column):
 
 class IssueViewBuilder:
 
-    _q = """SELECT description,
-                 reporter_email,
-                 reporter_name
-            FROM issues
-            WHERE issue_id = :id"""
+    _q = """
+        SELECT description, reporter_email, reporter_name
+        FROM issues
+        WHERE issue_id = :id
+    """
 
     def __init__(self, session):
         self.session = session
@@ -32,23 +32,15 @@ class IssueViewBuilder:
 
 class IssueListBuilder:
 
-    _q = """SELECT issue_id,
-                 description,
-                 reporter_email,
-                 reporter_name
-            FROM issues"""
+    _q = """
+        SELECT issue_id, description, reporter_email, reporter_name
+        FROM issues
+    """
 
     def __init__(self, session):
         self.session = session
 
     def fetch(self):
-        query = self.session.execute(
-            'SELECT issue_id, description, reporter_email, reporter_name ' +
-            ' FROM issues')
-
-        result = []
-        for r in query.fetchall():
-            r = read_uuid(r, 'issue_id')
-            result.append(r)
-
+        query = self.session.execute(self._q)
+        result = [read_uuid(row, 'issue_id') for row in query.fetchall()]
         return result

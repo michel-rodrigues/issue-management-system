@@ -3,6 +3,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import mapper, scoped_session, sessionmaker, composite
 from sqlalchemy_utils.functions import create_database, drop_database
+from sqlalchemy_utils.types.uuid import UUIDType
 
 from issues.domain.models import Issue, IssueReporter
 from issues.domain.ports import UnitOfWork, UnitOfWorkManager
@@ -74,7 +75,8 @@ class SqlAlchemy:
         issues = Table(
             'issues',
             self.metadata,
-            Column('id', Integer, primary_key=True),
+            Column('pk', Integer, primary_key=True),
+            Column('issue_id', UUIDType),
             Column('reporter_name', String(50)),
             Column('reporter_email', String(50)),
             Column('description', Text)
@@ -85,7 +87,8 @@ class SqlAlchemy:
             issues.c.reporter_email
         )
         properties = {
-            'id': issues.c.id,
+            '__pk': issues.c.pk,
+            'id': issues.c.issue_id,
             'description': issues.c.description,
             'reporter': reporter_composition
         }

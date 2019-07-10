@@ -1,3 +1,4 @@
+import uuid
 import pytest
 
 from sqlalchemy_utils.functions import create_database, drop_database
@@ -9,6 +10,7 @@ from issues.services.handlers import ReportIssueHandler
 from issues.adapters.orm import SqlAlchemy
 
 
+ID = uuid.uuid4()
 NAME = 'Vovó Juju'
 EMAIL = 'juju@abacate'
 MESSAGE = 'Esqueci minha senha, bem'
@@ -35,7 +37,7 @@ def data_base():
 
 
 def report_an_issue(data_base):
-    cmd = ReportIssueCommand(NAME, EMAIL, MESSAGE)
+    cmd = ReportIssueCommand(ID, NAME, EMAIL, MESSAGE)
     handler = ReportIssueHandler(data_base.db.unit_of_work_manager)
     handler(cmd)
 
@@ -52,6 +54,9 @@ class TestWhenWeLoadAPersistedIssue:
 
     def test_we_should_have_loaded_a_single_issue(self):
         assert len(self.issues) == 1
+
+    def test_it_should_have_the_correct_id(self):
+        assert self.issues[0].id == ID
 
     def test_it_should_have_the_correct_description(self):
         assert self.issues[0].description == MESSAGE

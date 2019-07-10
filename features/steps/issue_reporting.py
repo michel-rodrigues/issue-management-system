@@ -1,3 +1,4 @@
+import uuid
 from behave import given, when, then
 
 from issues.domain.commands import ReportIssueCommand
@@ -6,6 +7,7 @@ from issues.services.handlers import ReportIssueHandler
 from features.fakes.adapters import FakeUnitOfWork
 
 
+ID = uuid.uuid4()
 NAME = 'Vovó Juju'
 EMAIL = 'juju@abacate'
 DESCRIPTION = 'Esqueci minha senha, bem'
@@ -20,12 +22,16 @@ class WhenReportingAnIssue:
     @when('we report a new issue')
     def because_we_report_a_new_issue(self):
         handler = ReportIssueHandler(self.unit_of_work)
-        cmd = ReportIssueCommand(NAME, EMAIL, DESCRIPTION)
+        cmd = ReportIssueCommand(ID, NAME, EMAIL, DESCRIPTION)
         handler(cmd)
 
     @then('it should have created a new issue')
     def the_handler_should_have_created_a_new_issue(self):
         assert len(self.unit_of_work.issues) == 1
+
+    @then('it should have recorded the id')
+    def it_should_have_recorded_the_id(self):
+        assert self.unit_of_work.issues[0].id == ID
 
     @then('it should have recorded the issuer')
     def it_should_have_recorded_the_issuer(self):

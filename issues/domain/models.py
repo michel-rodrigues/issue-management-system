@@ -11,7 +11,8 @@ class IssueReporter:
 
 
 class Issue:
-    def __init__(self, reporter, description):
+    def __init__(self, issue_id, reporter, description):
+        self.id = issue_id
         self.description = description
         self.reporter = reporter
 

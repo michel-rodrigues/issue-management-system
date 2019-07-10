@@ -8,7 +8,7 @@ class ReportIssueHandler:
 
     def __call__(self, cmd):
         reported_by = IssueReporter(cmd.reporter_name, cmd.reporter_email)
-        issue = Issue(reported_by, cmd.problem_description)
+        issue = Issue(cmd.issue_id, reported_by, cmd.problem_description)
         with self.unit_of_work.start() as tx:
             tx.issues.add(issue)
             tx.commit()

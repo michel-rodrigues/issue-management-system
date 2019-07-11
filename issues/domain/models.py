@@ -18,10 +18,3 @@ class Issue:
 
     def __repr__(self):
         return f'<Issue: {self.reporter}>'
-
-
-class IssueLog(abc.ABC):
-
-    @abc.abstractmethod
-    def add(self, issue):
-        pass

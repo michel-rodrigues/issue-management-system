@@ -1,5 +1,4 @@
-from issues.domain.models import IssueLog
-from issues.domain.ports import UnitOfWork, UnitOfWorkManager
+from issues.domain.ports import IssueLog, UnitOfWork, UnitOfWorkManager
 
 
 class FakeIssueLog(IssueLog):
